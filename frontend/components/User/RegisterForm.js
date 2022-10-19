@@ -36,7 +36,7 @@ export default function RegisterForm() {
     const handleSubmit = event => {
         event.preventDefault();
         registerUser(formState).then(data => console.log(data));
-        router.push("/login");
+        router.push("/");
     }
 
     return (

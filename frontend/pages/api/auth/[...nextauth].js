@@ -2,15 +2,15 @@ import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 
 const authOptions = {
+    pages: {
+        signIn: "/login",
+    },
     providers: [
         CredentialsProvider({
             name: "Credentials",
             credentials: {
                 username: { label: "username", type: "text" },
                 password: { label: "password", type: "password" },
-            },
-            pages: {
-                singIn: "/login",
             },
             async authorize(credentials, req) {
                 const res = await fetch("http://localhost:8000/api/login/", {

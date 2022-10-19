@@ -38,7 +38,7 @@ export default function Home() {
             <PaddedCard>
                     <h1>Welcome</h1>
                 <Centralizer>
-                    <Button onClick={() => {signIn();}} variant="contained">Login</Button>
+                    <Button onClick={() => {signIn('Credentials', {callbackUrl: "/profile"});}} variant="contained">Login</Button>
                     <Link href="/register">
                         <Button variant="contained">Register</Button>
                     </Link>
