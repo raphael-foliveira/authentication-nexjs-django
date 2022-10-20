@@ -1,5 +1,6 @@
-export const createNote = async (noteData) => {
-    const token = localStorage.getItem("token");
+
+
+export const createNote = async (noteData, token) => {
     let response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/notes/`, {
         method: "POST",
         headers: {
@@ -13,8 +14,7 @@ export const createNote = async (noteData) => {
     return data;
 };
 
-export const getNoteAuthor = async (authorId) => {
-    const token = localStorage.getItem("token");
+export const getNoteAuthor = async (authorId, token) => {
     let response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/users/${authorId}/`);
     let authorData = response.json();
     return authorData;
