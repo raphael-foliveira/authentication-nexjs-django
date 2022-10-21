@@ -10,6 +10,22 @@ export const registerUser = async (userData) => {
     return data;
 };
 
+export const authenticateUser = async (credentials) => {
+    let response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/login/`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(credentials),
+    });
+    let {token} = await response.json();
+    if (token) {
+        localStorage.setItem("token", token);
+        return token;
+    }
+    return null;
+}
+
 export const getUserFromToken = async (token) => {
     if (!token) {
         return null;
@@ -21,6 +37,5 @@ export const getUserFromToken = async (token) => {
             Authorization: `Token ${token}`,
         },
     });
-    let user = await response.json();
-    return user;
+    return response.json();
 };

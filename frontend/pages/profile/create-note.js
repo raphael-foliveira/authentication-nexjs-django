@@ -3,16 +3,16 @@ import FormCard from "../../components/UI/FormCard";
 import { TextField, Button } from "@mui/material";
 import {createNote} from "../../services/note-services"
 import { useRouter } from "next/router";
-import { useSession } from "next-auth/react";
+import { useLocalStorage } from "../../lib/hooks";
 
 export default function CreateNote() {
     const [formState, setFormState] = useState({
         title: "",
         content: "",
     });
+    const token = useLocalStorage("token");
 
     const router = useRouter();
-    const session = useSession();
 
     const changeHandler = (event) => {
         let name = event.target.name;
@@ -27,7 +27,7 @@ export default function CreateNote() {
 
     const submitHandler = (event) => {
         event.preventDefault();
-        createNote(formState, session.data.user.name).then(response => router.push(`/profile`));
+        createNote(formState, token).then(response => router.push(`/profile`));
     }
 
     return (

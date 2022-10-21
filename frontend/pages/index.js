@@ -4,7 +4,6 @@ import { Button } from "@mui/material";
 import styled from "@emotion/styled";
 import Link from "next/link";
 import { PaddedCard } from "../components/UI/FormCard";
-import { signIn, useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 
@@ -16,17 +15,10 @@ const Centralizer = styled.div`
     .MuiButtonBase-root {
         margin: 50px;
     }
-`
+`;
 
 export default function Home() {
     const router = useRouter();
-    const session = useSession(); 
-
-    useEffect(() => {
-        if (session.status === "authenticated") {
-            router.push("/profile")
-        }
-    }, [session]);
 
     return (
         <div className={styles.container}>
@@ -36,9 +28,13 @@ export default function Home() {
             </Head>
 
             <PaddedCard>
-                    <h1>Welcome</h1>
+                <h1>Welcome</h1>
                 <Centralizer>
-                    <Button onClick={() => {signIn('Credentials', {callbackUrl: "/profile"});}} variant="contained">Login</Button>
+                    <Link href={"/login"}>
+                        <Button variant="contained">
+                            Login
+                        </Button>
+                    </Link>
                     <Link href="/register">
                         <Button variant="contained">Register</Button>
                     </Link>

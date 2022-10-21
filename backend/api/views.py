@@ -67,6 +67,12 @@ class NoteViewSet(viewsets.ViewSet):
         )
         return Response(serializers.NoteSerializer(instance=new_note).data)
 
+    def destroy(self, request, pk=None):
+        deleted_note = models.Note.objects.get(pk=pk)
+        deleted_note.delete()
+        serializer = serializers.NoteSerializer(instance=deleted_note)
+        return Response(serializer.data)
+
 class GetUserFromTokenView(views.APIView):
 
     authentication_classes = [TokenAuthentication]

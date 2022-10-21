@@ -5,10 +5,9 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { PaddedCard } from "../../components/UI/FormCard";
 import styled from "@emotion/styled";
-import { getCsrfToken, useSession } from "next-auth/react";
-import { signOut } from "next-auth/react";
-import { getUserFromToken } from "../../services/auth-services";
+import { getUserFromToken, signOut } from "../../services/auth-services";
 import { getUserNotes } from "../../services/note-services";
+import { useLocalStorage } from "../../lib/hooks";
 
 const Centralizer = styled.div`
     display: flex;
@@ -18,19 +17,24 @@ const Centralizer = styled.div`
     margin-top: 2rem;
 `;
 
-export default function UserProfileCard(å) {
+export default function UserProfileCard() {
     const router = useRouter();
     const [userInfo, setUserInfo] = useState();
     const [userNotes, setUserNotes] = useState([]);
-    const session = useSession();
+    const token = useLocalStorage("token");
+    const isLoggedIn = useLocalStorage("isLoggedIn");
+
+    const hangleSignOut = () => {
+        localStorage.clear();
+        router.push("/");
+    };
 
     useEffect(() => {
-        if (session.status === "authenticated") {
-            let token = session.data.user.name;
+        if (token) {
             getUserFromToken(token).then((user) => setUserInfo(user));
             getUserNotes(token).then((notes) => setUserNotes(notes));
         }
-    }, [session]);
+    }, [token]);
 
     return (
         <PaddedCard>
@@ -55,7 +59,7 @@ export default function UserProfileCard(å) {
                     <Link href={`/profile/create-note`}>
                         <Button>Create new note</Button>
                     </Link>
-                    <Button onClick={() => signOut({callbackUrl: "/"})}>Log Out</Button>
+                    <Button onClick={hangleSignOut}>Log Out</Button>
                 </>
             ) : (
                 <Centralizer>

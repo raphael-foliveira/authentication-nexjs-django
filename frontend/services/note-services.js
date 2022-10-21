@@ -28,6 +28,17 @@ export const getUserNotes = async (token) => {
             Authorization: `Token ${token}`,
         },
     });
-    let userNotes = response.json();
-    return userNotes;
+    return response.json();
+
 };
+
+export const deleteNote = async (noteId, token) => {
+    let response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/notes/${noteId}`, {
+        method: "DELETE",
+        headers: {
+            "Content-Type": "application-json",
+            Authorization: `Token ${token}`,
+        },
+    });
+    return response.json();
+}
