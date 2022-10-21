@@ -14,7 +14,7 @@ export const createNote = async (noteData, token) => {
     return data;
 };
 
-export const getNoteAuthor = async (authorId, token) => {
+export const getNoteAuthor = async (authorId) => {
     let response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/users/${authorId}/`);
     let authorData = response.json();
     return authorData;
@@ -41,4 +41,9 @@ export const deleteNote = async (noteId, token) => {
         },
     });
     return response.json();
+}
+
+export const getAllNotes = async () => {
+    let response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/notes/`);
+    return await response.json();
 }

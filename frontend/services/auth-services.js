@@ -37,5 +37,7 @@ export const getUserFromToken = async (token) => {
             Authorization: `Token ${token}`,
         },
     });
-    return response.json();
+    let userInfo = await response.json();
+    localStorage.setItem("user", JSON.stringify(userInfo));
+    return userInfo;
 };
