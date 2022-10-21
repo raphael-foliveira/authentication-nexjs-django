@@ -46,9 +46,9 @@ export default function UserProfileCard() {
         <RequireAuth>
             <PaddedCard>
                 <>
-                    <h1>
+                    {!!user && <h1>
                         Welcome {user.first_name} {user.last_name}!
-                    </h1>
+                    </h1>}
                     <h3>Your Notes</h3>
                     <hr />
                     {userNotes.length > 0 && <NotesList notes={userNotes} />}

@@ -17,7 +17,6 @@ export default function Note({noteInfo}) {
     useEffect(() => {
         getNoteAuthor(noteInfo.author)
         .then(authorInfo => setAuthor(authorInfo));
-        console.log(user);
     }, []);
 
     return (

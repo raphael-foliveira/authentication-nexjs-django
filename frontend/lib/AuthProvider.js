@@ -1,10 +1,10 @@
 import { createContext, useEffect } from "react";
-import { getToken, getUserFromToken } from "../services/auth-services";
+import { getToken, getUserFromToken,  } from "../services/auth-services";
 import { useState } from "react";
 
 export const AuthContext = createContext({});
 
-export const AuthProvider = ({children}) => {
+export const AuthProvider = ({ children }) => {
     const [loading, setLoading] = useState(true);
     const [isAuthenticated, setIsAuthenticated] = useState(false);
     const [token, setToken] = useState("");
@@ -15,20 +15,36 @@ export const AuthProvider = ({children}) => {
         setToken("");
         setUser(null);
         setLoading(false);
-    }
+        localStorage.removeItem("user");
+        localStorage.removeItem("token");
+    };
+
+    const authorize = async (authToken) => {
+        setToken(authToken);
+        const newUser = await getUserFromToken(authToken);
+        setUser(newUser);
+        setIsAuthenticated(true);
+        setLoading(false);
+    };
 
     const login = async (credentials) => {
+        setLoading(true);
         const newToken = await getToken(credentials);
         if (newToken) {
-            setToken(newToken);
-            const newUser = await getUserFromToken(newToken);
-            setUser(newUser);
-            setIsAuthenticated(true);
-            setLoading(false);
+            authorize(newToken);
         } else {
             logout();
         }
-    }
+    };
+
+    useEffect(() => {
+        setToken(localStorage.getItem("token"));
+        setUser(localStorage.getItem("user"));
+        if (!!user) {
+            setIsAuthenticated(true);
+            setLoading(false);
+        }
+    }, [token, user, isAuthenticated, loading]);
 
     const authData = {
         loading,
@@ -37,25 +53,8 @@ export const AuthProvider = ({children}) => {
         user,
         login,
         logout,
-        setLoading
-    }
+        setLoading,
+    };
 
-    useEffect(() => {
-        setToken(localStorage.getItem("token"));
-        setUser(localStorage.getItem("user"));
-        if (!!user) {
-            setLoading(false);
-            setIsAuthenticated(true);
-        } else {
-            setLoading(false);
-        }
-        console.log(authData);
-    }, [])
-
-    return (
-        <AuthContext.Provider value={authData}>
-            {children}
-        </AuthContext.Provider>
-    )
-}
-
+    return <AuthContext.Provider value={authData}>{children}</AuthContext.Provider>;
+};
