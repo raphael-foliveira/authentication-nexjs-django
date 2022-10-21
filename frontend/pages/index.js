@@ -8,9 +8,11 @@ import { useRouter } from "next/router";
 import { useEffect } from "react";
 
 const Centralizer = styled.div`
-    width: 100%;
+    max-width: 1000px;
+    margin-left: auto;
+    margin-right: auto;
     min-height: 100px;
-    display: flex;
+    text-align: center;
     justify-content: space-between;
     .MuiButtonBase-root {
         margin: 50px;
@@ -27,9 +29,8 @@ export default function Home() {
                 <link rel="icon" href="/favicon.ico" />
             </Head>
 
-            <PaddedCard>
-                <h1>Welcome</h1>
                 <Centralizer>
+                <h1>Welcome</h1>
                     <Link href={"/login"}>
                         <Button variant="contained">
                             Login
@@ -39,7 +40,6 @@ export default function Home() {
                         <Button variant="contained">Register</Button>
                     </Link>
                 </Centralizer>
-            </PaddedCard>
         </div>
     );
 }

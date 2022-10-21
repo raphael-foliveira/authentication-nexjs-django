@@ -1,15 +1,20 @@
-import { useEffect } from "react";
 import Note from "../components/Notes/Note";
 import { getAllNotes } from "../services/note-services";
+import { PaddedCard } from "../components/UI/FormCard";
+import RequireAuth from "../components/Auth/ProtectedPage";
+import { useState } from "react";
 
-
-export default function AllNotes({ notes }) {
+export default function AllNotes({notes}) {
     return (
-        <>
-        <h1>All notes</h1>
-        {notes.map(note => <Note note={note} key={note.id} />)}
-        </>
-    )
+        <RequireAuth>
+            <PaddedCard>
+                <h1>All notes</h1>
+                {notes.map((note) => (
+                    <Note noteInfo={note} key={note.id} />
+                ))}
+            </PaddedCard>
+        </RequireAuth>
+    );
 }
 
 export async function getServerSideProps(context) {
@@ -17,6 +22,6 @@ export async function getServerSideProps(context) {
     return {
         props: {
             notes: allNotes,
-        }
-    }
+        },
+    };
 }

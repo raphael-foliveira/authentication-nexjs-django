@@ -10,7 +10,7 @@ export const registerUser = async (userData) => {
     return data;
 };
 
-export const authenticateUser = async (credentials) => {
+export const getToken = async (credentials) => {
     let response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/login/`, {
         method: "POST",
         headers: {
@@ -23,12 +23,12 @@ export const authenticateUser = async (credentials) => {
         localStorage.setItem("token", token);
         return token;
     }
-    return null;
+    return false;
 }
 
 export const getUserFromToken = async (token) => {
     if (!token) {
-        return null;
+        return false;
     }
     let response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/get-user/`, {
         method: "POST",

@@ -1,22 +1,22 @@
 import FormCard from "../components/UI/FormCard";
 import { FullWidthTextField } from "../components/UI/FullWidthTextField";
 import { Button } from "@mui/material";
-import { authenticateUser } from "../services/auth-services";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
+import { useContext } from "react";
+import { AuthContext } from "../lib/AuthProvider";
 
 export default function Login() {
     const [formState, setFormState] = useState({
         username: "",
         password: "",
     });
-    const [token, setToken] = useState();
     const router = useRouter();
+    const {login, token, user, loading, isAuthenticated} = useContext(AuthContext);
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-        authenticateUser(formState)
-        .then(newToken => setToken(newToken));
+        login(formState);
     };
 
     const handleChange = (event) => {
@@ -29,10 +29,10 @@ export default function Login() {
     };
 
     useEffect(() => {
-        if (token) {
+        if (!loading && isAuthenticated) {
             router.push("/profile");
         }
-    }, [token]);
+    }, [isAuthenticated]);
 
     return (
         <FormCard>

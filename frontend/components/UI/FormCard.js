@@ -15,7 +15,6 @@ h1 {
     margin: 30px auto;
 }
 padding: 50px;
-box-shadow: 0px 0px 50px rgba(0,0,0,1);
 margin: 10px auto;
 max-width: 800px;
 min-height: 1000px;

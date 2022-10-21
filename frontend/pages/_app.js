@@ -2,6 +2,7 @@ import "../styles/globals.css";
 import { createTheme, ThemeProvider } from "@mui/material";
 import styled from "@emotion/styled";
 import { green, orange, grey } from "@mui/material/colors";
+import { AuthProvider } from "../lib/AuthProvider";
 
 const theme = createTheme({
     palette: {
@@ -19,7 +20,9 @@ const BackGround = styled.div`
 function MyApp({ Component, pageProps }) {
     return (
         <ThemeProvider theme={theme}>
-            <Component {...pageProps} />
+            <AuthProvider>
+                <Component {...pageProps} />
+            </AuthProvider>
         </ThemeProvider>
     );
 }
