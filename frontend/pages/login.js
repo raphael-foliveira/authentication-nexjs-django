@@ -5,20 +5,15 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { useContext } from "react";
 import { AuthContext } from "../lib/AuthProvider";
-import { signIn } from "next-auth/react";
+import { getCsrfToken } from "next-auth/react";
 
-export default function Login() {
+export default function Login({ csrfToken }) {
     const [formState, setFormState] = useState({
         username: "",
         password: "",
     });
     const router = useRouter();
     const { login, token, user, loading, isAuthenticated } = useContext(AuthContext);
-
-    const handleSubmit = async (event) => {
-        event.preventDefault();
-        login(formState);
-    };
 
     const handleChange = (event) => {
         setFormState((prevState) => {
@@ -38,7 +33,8 @@ export default function Login() {
     return (
         <FormCard>
             <h1 style={{ textAlign: "center" }}>Login</h1>
-            <form action="" method="POST" onSubmit={handleSubmit}>
+            <form action="/api/auth/callback/credentials" method="POST">
+                <input type="hidden" defaultValue={csrfToken} name="csrfToken"/>
                 <FullWidthTextField
                     label="User Name"
                     name="username"
@@ -58,4 +54,12 @@ export default function Login() {
             </form>
         </FormCard>
     );
+}
+
+export async function getServerSideProps(context) {
+    return {
+        props: {
+            csrfToken: await getCsrfToken(context),
+        }
+    }
 }
