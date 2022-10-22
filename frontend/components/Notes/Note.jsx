@@ -5,9 +5,8 @@ import { useLocalStorage } from "../../lib/hooks";
 import { deleteNote } from "../../services/note-services";
 import { useRouter } from "next/router";
 
-export default function Note({noteInfo}) {
+export default function Note({noteInfo, user}) {
     const [author, setAuthor] = useState("");
-    const user = useLocalStorage("user");
 
     const handleDeleteNote = (event) => {
         deleteNote(noteInfo.id, localStorage.getItem("token"));

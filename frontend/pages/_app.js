@@ -3,6 +3,7 @@ import { createTheme, ThemeProvider } from "@mui/material";
 import styled from "@emotion/styled";
 import { green, orange, grey } from "@mui/material/colors";
 import { AuthProvider } from "../lib/AuthProvider";
+import { SessionProvider } from "next-auth/react";
 
 const theme = createTheme({
     palette: {
@@ -20,9 +21,11 @@ const BackGround = styled.div`
 function MyApp({ Component, pageProps }) {
     return (
         <ThemeProvider theme={theme}>
-            <AuthProvider>
+            {/* <AuthProvider> */}
+            <SessionProvider>
                 <Component {...pageProps} />
-            </AuthProvider>
+            </SessionProvider>
+            {/* </AuthProvider> */}
         </ThemeProvider>
     );
 }

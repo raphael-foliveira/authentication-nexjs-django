@@ -12,7 +12,7 @@ h1 {
     margin: 10px 0;
 }
 .MuiButtonBase-root {
-    margin: 30px auto;
+    margin: 30px;
 }
 padding: 50px;
 margin: 10px auto;

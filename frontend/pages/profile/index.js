@@ -1,15 +1,14 @@
-import Note from "../../components/Notes/Note";
-import { Suspense, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Button, CircularProgress } from "@mui/material";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import { getUserNotes } from "../../services/note-services";
 import { PaddedCard } from "../../components/UI/FormCard";
 import styled from "@emotion/styled";
-import { getUserNotes } from "../../services/note-services";
-import { useContext } from "react";
-import { AuthContext } from "../../lib/AuthProvider";
-import RequireAuth from "../../components/Auth/ProtectedPage";
 import NotesList from "../../components/Notes/NotesList";
+import { useSession } from "next-auth/react";
+import { signOut } from "next-auth/react";
+import { getUserFromToken } from "../../services/auth-services";
 
 const Centralizer = styled.div`
     display: flex;
@@ -21,43 +20,37 @@ const Centralizer = styled.div`
 
 export default function UserProfileCard() {
     const router = useRouter();
-    const { token, logout, user, loading, setLoading } = useContext(AuthContext);
+    const session = useSession();
     const [userNotes, setUserNotes] = useState([]);
+    const [user, setUser] = useState({});
 
     const handleSignOut = () => {
-        logout();
-        setLoading(true);
-        router.push("/");
+        signOut({ callbackUrl: "/" });
     };
 
     useEffect(() => {
-        getUserNotes(token).then((notes) => setUserNotes(notes));
-    }, [loading]);
-
-    if (loading) {
-        return (
-            <Centralizer>
-                <CircularProgress />
-            </Centralizer>
-        );
-    }
+        if (session.status === "authenticated") {
+            getUserNotes(session.data.token).then((notes) => setUserNotes(notes));
+            getUserFromToken(session.data.token).then((userInfo) => setUser(userInfo));
+        }
+    }, [session]);
 
     return (
-        <RequireAuth>
-            <PaddedCard>
-                <>
-                    {!!user && <h1>
+        <PaddedCard>
+            <>
+                {!!user && (
+                    <h1>
                         Welcome {user.first_name} {user.last_name}!
-                    </h1>}
-                    <h3>Your Notes</h3>
-                    <hr />
-                    {userNotes.length > 0 && <NotesList notes={userNotes} />}
-                    <Link href={`/profile/create-note`}>
-                        <Button>Create new note</Button>
-                    </Link>
-                    <Button onClick={handleSignOut}>Log Out</Button>
-                </>
-            </PaddedCard>
-        </RequireAuth>
+                    </h1>
+                )}
+                <h3>Your Notes</h3>
+                <hr />
+                {userNotes.length > 0 && <NotesList notes={userNotes} user={user} />}
+                <Link href={`/profile/create-note`}>
+                    <Button>Create new note</Button>
+                </Link>
+                <Button onClick={handleSignOut}>Log Out</Button>
+            </>
+        </PaddedCard>
     );
 }

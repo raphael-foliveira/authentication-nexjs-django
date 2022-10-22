@@ -70,8 +70,12 @@ class NoteViewSet(viewsets.ViewSet):
     def destroy(self, request, pk=None):
         deleted_note = models.Note.objects.get(pk=pk)
         deleted_note.delete()
-        serializer = serializers.NoteSerializer(instance=deleted_note)
-        return Response(serializer.data)
+        if request.user == deleted_note.author:
+            serializer = serializers.NoteSerializer(instance=deleted_note)
+            return Response(serializer.data)
+        return Response({
+            'error': 'Only the author can delete this note.'
+        })
 
 class GetUserFromTokenView(views.APIView):
 

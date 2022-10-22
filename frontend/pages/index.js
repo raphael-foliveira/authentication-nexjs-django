@@ -6,6 +6,7 @@ import Link from "next/link";
 import { PaddedCard } from "../components/UI/FormCard";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
+import { signIn } from "next-auth/react";
 
 const Centralizer = styled.div`
     max-width: 1000px;
@@ -29,17 +30,17 @@ export default function Home() {
                 <link rel="icon" href="/favicon.ico" />
             </Head>
 
+            <PaddedCard>
                 <Centralizer>
-                <h1>Welcome</h1>
-                    <Link href={"/login"}>
-                        <Button variant="contained">
-                            Login
-                        </Button>
-                    </Link>
+                    <h1>Welcome</h1>
+                    <Button variant="contained" onClick={() => signIn(undefined, {callbackUrl: "/profile"})}>
+                        Login
+                    </Button>
                     <Link href="/register">
                         <Button variant="contained">Register</Button>
                     </Link>
                 </Centralizer>
+            </PaddedCard>
         </div>
     );
 }

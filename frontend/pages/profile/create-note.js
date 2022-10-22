@@ -5,13 +5,15 @@ import { createNote } from "../../services/note-services";
 import { useRouter } from "next/router";
 import { useLocalStorage } from "../../lib/hooks";
 import RequireAuth from "../../components/Auth/ProtectedPage";
+import { useSession } from "next-auth/react";
 
 export default function CreateNote() {
     const [formState, setFormState] = useState({
         title: "",
         content: "",
     });
-    const token = useLocalStorage("token");
+    const session = useSession();
+    const token = session.token;
 
     const router = useRouter();
 
@@ -32,14 +34,12 @@ export default function CreateNote() {
     };
 
     return (
-        <RequireAuth>
-            <FormCard>
-                <form action="" method="POST" onSubmit={submitHandler}>
-                    <TextField name="title" label="Note Title" onChange={changeHandler} />
-                    <TextField name="content" label="Note" onChange={changeHandler} multiline rows={6} />
-                    <Button type="submit">Save</Button>
-                </form>
-            </FormCard>
-        </RequireAuth>
+        <FormCard>
+            <form action="" method="POST" onSubmit={submitHandler}>
+                <TextField name="title" label="Note Title" onChange={changeHandler} />
+                <TextField name="content" label="Note" onChange={changeHandler} multiline rows={6} />
+                <Button type="submit">Save</Button>
+            </form>
+        </FormCard>
     );
 }

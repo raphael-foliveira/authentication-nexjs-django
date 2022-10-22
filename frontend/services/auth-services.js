@@ -20,7 +20,7 @@ export const getToken = async (credentials) => {
     });
     let {token} = await response.json();
     if (token) {
-        localStorage.setItem("token", token);
+        // localStorage.setItem("token", token);
         return token;
     }
     return false;
@@ -38,6 +38,6 @@ export const getUserFromToken = async (token) => {
         },
     });
     let userInfo = await response.json();
-    localStorage.setItem("user", JSON.stringify(userInfo));
+    // localStorage.setItem("user", JSON.stringify(userInfo));
     return userInfo;
 };

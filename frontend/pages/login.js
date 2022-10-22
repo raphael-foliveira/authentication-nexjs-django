@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { useContext } from "react";
 import { AuthContext } from "../lib/AuthProvider";
+import { signIn } from "next-auth/react";
 
 export default function Login() {
     const [formState, setFormState] = useState({
@@ -12,7 +13,7 @@ export default function Login() {
         password: "",
     });
     const router = useRouter();
-    const {login, token, user, loading, isAuthenticated} = useContext(AuthContext);
+    const { login, token, user, loading, isAuthenticated } = useContext(AuthContext);
 
     const handleSubmit = async (event) => {
         event.preventDefault();
