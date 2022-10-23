@@ -1,7 +1,5 @@
 import FormCard from "../components/UI/FormCard";
-import { Button } from "@mui/material";
 import { getCsrfToken } from "next-auth/react";
-import { useEffect } from "react";
 
 export default function Logout(csrfToken) {
     return (

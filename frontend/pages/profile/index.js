@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Button, CircularProgress } from "@mui/material";
+import { Button } from "@mui/material";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { getUserNotes } from "../../services/note-services";

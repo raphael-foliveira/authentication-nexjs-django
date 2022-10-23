@@ -5,7 +5,6 @@ import styled from "@emotion/styled";
 import Link from "next/link";
 import { PaddedCard } from "../components/UI/FormCard";
 import { useRouter } from "next/router";
-import { useEffect } from "react";
 import { signIn } from "next-auth/react";
 
 const Centralizer = styled.div`
@@ -33,7 +32,7 @@ export default function Home() {
             <PaddedCard>
                 <Centralizer>
                     <h1>Welcome</h1>
-                    <Button variant="contained" onClick={() => signIn(undefined, {callbackUrl: "/profile"})}>
+                    <Button variant="contained" onClick={() => signIn(undefined, { callbackUrl: "/profile" })}>
                         Login
                     </Button>
                     <Link href="/register">

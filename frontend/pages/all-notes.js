@@ -2,7 +2,6 @@ import Note from "../components/Notes/Note";
 import { getAllNotes } from "../services/note-services";
 import { PaddedCard } from "../components/UI/FormCard";
 import RequireAuth from "../components/Auth/ProtectedPage";
-import { useState } from "react";
 
 export default function AllNotes({notes}) {
     return (

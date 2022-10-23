@@ -3,8 +3,6 @@ import FormCard from "../../components/UI/FormCard";
 import { TextField, Button } from "@mui/material";
 import { createNote } from "../../services/note-services";
 import { useRouter } from "next/router";
-import { useLocalStorage } from "../../lib/hooks";
-import RequireAuth from "../../components/Auth/ProtectedPage";
 import { useSession } from "next-auth/react";
 
 export default function CreateNote() {

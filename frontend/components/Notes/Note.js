@@ -1,9 +1,7 @@
 import { useEffect, useState } from "react"
 import { getNoteAuthor } from "../../services/note-services";
 import { Button } from "@mui/material";
-import { useLocalStorage } from "../../lib/hooks";
 import { deleteNote } from "../../services/note-services";
-import { useRouter } from "next/router";
 
 export default function Note({noteInfo, user}) {
     const [author, setAuthor] = useState("");
